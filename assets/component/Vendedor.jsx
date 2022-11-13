@@ -1,12 +1,12 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { styles } from '../Styles/Style';
 import { useForm, Controller } from "react-hook-form";
-import { useState } from 'react';
+import useVentas from '../hooks/useVentas';
 
 const Vendedor = () => {
+  const { vendedores, SetVendedores,
+    totalComision, setTotalComision } = useVentas();
 
-  const [vendedores, SetVendedores] = useState([]);
-  const [totalComision, setTotalComision] = useState(12456);
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       idvend: '',

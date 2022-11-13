@@ -2,8 +2,10 @@ import { View, Text, TextInput, TouchableOpacity, Picker } from 'react-native'
 import { styles } from '../Styles/Style';
 import { useForm, Controller } from "react-hook-form";
 import { useState } from 'react';
+import useVentas from '../hooks/useVentas';
 
 const Venta = () => {
+  const { } = useVentas();
   const [zona, setZona] = useState("norte");
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
