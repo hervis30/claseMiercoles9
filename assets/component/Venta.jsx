@@ -5,7 +5,8 @@ import { useState } from 'react';
 import useVentas from '../hooks/useVentas';
 
 const Venta = () => {
-  const { } = useVentas();
+  //aqui se importaran los componentes
+  //const { } = useVentas();
   const [zona, setZona] = useState("norte");
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
