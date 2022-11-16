@@ -6,11 +6,13 @@ const VentasContex = createContext();
 const AppContexProvider = ({ children }) => {
     const [vendedores, SetVendedores] = useState([]);
     const [totalComision, setTotalComision] = useState(12456);
+    const [placeHolder, setPlaceholder] = useState(false);
     return (
         <VentasContex.Provider
             value={{
                 vendedores, SetVendedores,
-                totalComision, setTotalComision
+                totalComision, setTotalComision,
+                placeHolder, setPlaceholder
             }}
         >
             {children}

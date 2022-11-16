@@ -1,22 +1,55 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import { styles } from '../Styles/Style';
 import { useForm, Controller } from "react-hook-form";
+import { useState } from 'react';
 import useVentas from '../hooks/useVentas';
 
 const Vendedor = () => {
+  let buscar = () => {
+    console.log(arreglo.idvend);
+    setPlaceholder(true);
+  }
+  const [prueba, setPrueba] = useState("prueba");
+  const [isLoading, setLoading] = useState(true);
+  const [arreglo, setArreglo] = useState([]);
   const { vendedores, SetVendedores,
-    totalComision, setTotalComision } = useVentas();
+    totalComision, setTotalComision,
+    placeHolder, setPlaceholder } = useVentas();
 
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  //agregar vendedor
+  const saveCustumer = async () => {
+    const { idvend, nombre, correo } = arreglo;
+    setLoading(true);
+    try {
+      const response = await axios.post(`http://10.2.5.189:3000/api/clientes`, {
+        idvend,
+        nombre,
+        correo
+      });
+      alert("Vendedor agregado correctamente ...")
+    } catch (error) {
+      console.log(error)
+    }
+    finally {
+      setLoading(false);
+    }
+  };
+
+
+  const { control, reset, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       idvend: '',
       nombre: '',
       correo: ''
-    }
+    },
   });
   const onSubmit = data => {
+    //reset();
     console.log(data)
     SetVendedores([...vendedores, data]);
+    setArreglo(data);
+    setPlaceholder(false);
+    saveCustumer();
 
   };
   return (
@@ -73,7 +106,7 @@ const Vendedor = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder="Ingrese el nombre del vendedor"
+              placeholder={placeHolder ? (`${prueba}`) : "Ingrese el nombre del vendedor"}
             />
           )}
           name="nombre"
@@ -124,7 +157,7 @@ const Vendedor = () => {
         <View style={styles.input_flex}>
           <TouchableOpacity
             style={{ backgroundColor: 'green', padding: 10, borderRadius: 10, marginTop: 80, width: 200 }}
-            onPress={handleSubmit(onSubmit)}
+            onPress={() => buscar()}
           >
             <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>Bucar vendedor</Text>
           </TouchableOpacity>

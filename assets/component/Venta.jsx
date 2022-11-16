@@ -6,7 +6,7 @@ import useVentas from '../hooks/useVentas';
 
 const Venta = () => {
   //aqui se importaran los componentes
-  //const { } = useVentas();
+  const { placeHolder, setPlaceholder } = useVentas();
   const [zona, setZona] = useState("norte");
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -15,7 +15,10 @@ const Venta = () => {
       valorVenta: ''
     }
   });
-  const onSubmit = data => console.log(data);
+  const onSubmit = data => {
+    setPlaceholder(false);
+    console.log(data)
+  };
 
   return (
     <View style={styles.container}>
