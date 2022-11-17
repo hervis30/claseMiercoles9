@@ -12,6 +12,7 @@ export default function App() {
           name="home"
           component={Home}
           options={{ title: "Vendedor y ventas" }}
+          screenOptions={{ headerShown: false }}
         />
       </stack.Navigator>
     </NavigationContainer>

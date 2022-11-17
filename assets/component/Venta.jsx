@@ -21,7 +21,9 @@ const Venta = () => {
     <View style={styles.container}>
       <View style={{ backgroundColor: '#fffafa' }}>
         <Text style={{ color: 'black', fontSize: 22, marginBottom: 5, marginTop: 5 }}>
-          Bienvenido(a) a la seccion de ventas</Text>
+          Bienvenido(a) a la seccion de: </Text>
+          <Text style={{ color: 'black', fontSize: 22, marginBottom: 5, marginTop: 5 }}>
+          Ventas</Text>
       </View>
       <View>
         <Text style={styles.label}>Identificacion del vendedor</Text>
@@ -50,6 +52,7 @@ const Venta = () => {
         />
         {errors.idvend && <Text style={{ color: 'red', fontSize: 15 }}>{errors.idvend.message}</Text>}
       </View>
+
       <View>
         <Text style={styles.label}>Fecha de la venta</Text>
         <Controller
@@ -75,6 +78,7 @@ const Venta = () => {
         />
         {errors.fecha && <Text style={{ color: 'red', fontSize: 15 }}>{errors.fecha.message}</Text>}
       </View>
+      
       <View>
         <Text style={styles.label}>Valor de la venta</Text>
         <Controller
