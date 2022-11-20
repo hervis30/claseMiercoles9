@@ -54,9 +54,17 @@ const Vendedor = () => {
   };
   return (
     <View style={styles.container}>
-      <View style={{ backgroundColor: '#fffafa' }}>
-        <Text style={{ color: 'black', fontSize: 22, marginBottom: 5, marginTop: 5 }}>
-          Bienvenido(a) a la seccion de vendedores</Text>
+      <View style={{ backgroundColor: "#fffafa" }}>
+        <Text
+          style={{
+            color: "black",
+            fontSize: 22,
+            marginBottom: 5,
+            marginTop: 5,
+          }}
+        >
+          Bienvenido(a) a la seccion de vendedores
+        </Text>
       </View>
 
       <View>
@@ -68,23 +76,29 @@ const Vendedor = () => {
             maxLength: { value: 15, message: "Se permite maximo 12 numeros" },
             minLength: { value: 3, message: "Se permite minimo 3 numeros" },
             pattern: {
-              value: /^[0-9]*$/, message:
-                "Solo se permiten numeros",
+              value: /^[0-9]*$/,
+              message: "Solo se permiten numeros",
             },
           }}
-
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              style={[styles.inputs, { borderColor: errors.idvend ? 'red' : 'green' }]}
+              style={[
+                styles.inputs,
+                { borderColor: errors.idvend ? "#df5b5b" : "#eeeeee" },
+              ]}
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder="Ingrese identificacion"
+              placeholder=""
             />
           )}
           name="idvend"
         />
-        {errors.idvend && <Text style={{ color: 'red', fontSize: 15 }}>{errors.idvend.message}</Text>}
+        {errors.idvend && (
+          <Text style={{ color: "red", fontSize: 15 }}>
+            {errors.idvend.message}
+          </Text>
+        )}
       </View>
       <View>
         <Text style={styles.label}>Nombre vendedor</Text>
@@ -95,23 +109,31 @@ const Vendedor = () => {
             maxLength: { value: 100, message: "Se permite maximo 100 letras" },
             minLength: { value: 3, message: "Se permite minimo 3 letras" },
             pattern: {
-              value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?: [a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$/, message:
-                "Solo se permiten letras",
+              value: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?: [a-zA-ZáéíóúÁÉÍÓÚñÑ]+)*$/,
+              message: "Solo se permiten letras",
             },
           }}
-
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              style={[styles.inputs, { borderColor: errors.nombre ? 'red' : 'green' }]}
+              style={[
+                styles.inputs,
+                { borderColor: errors.nombre ? "#df5b5b" : "#eeeeee" },
+              ]}
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder={placeHolder ? (`${prueba}`) : "Ingrese el nombre del vendedor"}
+              placeholder={
+                placeHolder ? `${prueba}` : ""
+              }
             />
           )}
           name="nombre"
         />
-        {errors.nombre && <Text style={{ color: 'red', fontSize: 15 }}>{errors.nombre.message}</Text>}
+        {errors.nombre && (
+          <Text style={{ color: "red", fontSize: 15 }}>
+            {errors.nombre.message}
+          </Text>
+        )}
       </View>
       <View>
         <Text style={styles.label}>Correo electronico</Text>
@@ -122,52 +144,79 @@ const Vendedor = () => {
             maxLength: { value: 50, message: "Se permite maximo 50 letras" },
             minLength: { value: 6, message: "Se permite minimo 6  caracteres" },
             pattern: {
-              value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, message:
-                "El correo no es valido",
+              value: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+              message: "El correo no es valido",
             },
           }}
-
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              style={[styles.inputs, { borderColor: errors.correo ? 'red' : 'green' }]}
+              style={[
+                styles.inputs,
+                { borderColor: errors.correo ? "#df5b5b" : "#eeeeee" },
+              ]}
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder="Ingrese el correo del vendedor"
+              placeholder=""
             />
           )}
           name="correo"
         />
-        {errors.correo && <Text style={{ color: 'red', fontSize: 15 }}>{errors.correo.message}</Text>}
+        {errors.correo && (
+          <Text style={{ color: "red", fontSize: 15 }}>
+            {errors.correo.message}
+          </Text>
+        )}
       </View>
       <View>
         <Text style={styles.label}>Total comiciones</Text>
-        <TextInput style={styles.pickerStyle} placeholder={totalComision}>
-        </TextInput>
+        <TextInput
+          style={styles.pickerStyle}
+          placeholder={totalComision}
+        ></TextInput>
       </View>
-      <View style={{ flex: 1, flexDirection: 'row' }}>
+      <View style={{ flex: 1, flexDirection: "row" }}>
         <View style={styles.input_flex}>
           <TouchableOpacity
-            style={{ backgroundColor: 'green', padding: 10, borderRadius: 10, marginTop: 80, width: 200 }}
+            style={{
+              backgroundColor: "#eeeeee",
+              padding: 10,
+              borderRadius: 20,
+              marginTop: 80,
+              width: 150,
+            }}
             onPress={handleSubmit(onSubmit)}
           >
-            <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>Ingresar vendedor</Text>
+            <Text
+              style={{
+                color: "black",
+                textAlign: "center",
+                fontSize: 23,
+              }}
+            >
+              Agregar
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.input_flex}>
           <TouchableOpacity
-            style={{ backgroundColor: 'green', padding: 10, borderRadius: 10, marginTop: 80, width: 200 }}
+            style={{
+              backgroundColor: "#eeeeee",
+              padding: 10,
+              borderRadius: 20,
+              marginTop: 80,
+              width: 150,
+            }}
             onPress={() => buscar()}
           >
-            <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>Bucar vendedor</Text>
+            <Text style={{ color: "black", textAlign: "center", fontSize: 23 }}>
+              Bucar
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
-
-
-
     </View>
-  )
+  );
 }
 
 export default Vendedor;

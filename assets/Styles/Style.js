@@ -8,41 +8,42 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   inputs: {
-    textAlign: 'center',
+    textAlign: "center",
     borderWidth: 3,
-    borderColor: 'blue',
+    borderColor: "blue",
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 5,
     marginBottom: 15,
     width: 200,
     fontSize: 17,
+    backgroundColor: "#eeeeee",
   },
   pickerStyle: {
-    textAlign: 'center',
+    textAlign: "center",
     borderWidth: 3,
-    borderColor: 'green',
+    borderColor: "#eeeeee",
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 5,
     marginBottom: 15,
     width: 200,
     fontSize: 17,
+    backgroundColor: "#eeeeee",
   },
   label: {
-
-    color: 'black',
+    color: "black",
     fontSize: 16,
   },
   input_flex: {
     marginLeft: 6,
-    marginRight: 6
+    marginRight: 6,
   },
   datosUsuario: {
     marginLeft: 6,
     marginRight: 6,
     fontSize: 15,
     fontWeight: 1,
-    padding: 3
-  }
+    padding: 3,
+  },
 });
 
 export { styles };
