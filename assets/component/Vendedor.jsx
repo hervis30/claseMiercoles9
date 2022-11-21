@@ -1,40 +1,93 @@
 import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import { styles } from '../Styles/Style';
 import { useForm, Controller } from "react-hook-form";
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useVentas from '../hooks/useVentas';
+import axios from 'axios';
 
 const Vendedor = () => {
-  let buscar = () => {
-    console.log(arreglo.idvend);
-    setPlaceholder(true);
-  }
+  const [data, setData] = useState([]);
+  const [idven, setIdVen] = useState('');
+  const [nombre, setNombre] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [totalComision, setTotalComision] = useState('');
+  const [sid, setSid] = useState('');
+  const [idCambio, setIdCambio] = useState(false);
+
   const [prueba, setPrueba] = useState("prueba");
   const [isLoading, setLoading] = useState(true);
-  const [arreglo, setArreglo] = useState([]);
   const { vendedores, SetVendedores,
-    totalComision, setTotalComision,
     placeHolder, setPlaceholder } = useVentas();
-
-  //agregar vendedor
-  const saveCustumer = async () => {
-    const { idvend, nombre, correo } = arreglo;
-    setLoading(true);
+  
+  const check = () => {
+    setIdCambio(true);
+    getVendedorById(sid);
+    console.log("sdf");
+}
+  
+  const getVendedors = async () => {
+    
     try {
-      const response = await axios.post(`http://10.2.5.189:3000/api/clientes`, {
+      const url = `http://192.168.1.7:8500/api/vendedor`;
+      const response = await axios.get(url);
+      setData(response.data)
+      console.log(data)
+    }
+    catch (error) {
+      console.log(error)
+    }
+    finally {
+      setLoading(false)
+    }
+  };
+  const getVendedorById = async (id) => {
+    setIdCambio(true)
+    try {
+      const url = `http://192.168.1.7:8500/api/vendedor/${id}`;
+      const response = await axios.get(url);
+      console.log(response.data);
+      
+      if (response.data.nombre != null) {
+        setPlaceholder(true);
+        setIdVen(response.data.idvend);
+        setNombre(response.data.nombre);
+        setCorreo(response.data.correo);
+        setTotalComision(response.data.totalComision);
+      } else {
+        alert("Cliente no existe");
+        setNombre('');
+        // setCorreo('');
+        //setTotalComision('');
+      }
+
+    }
+    catch (error) {
+      console.log(error)
+    }
+    finally {
+      setLoading(false)
+    }
+  };
+  //agregar vendedor
+  const saveVendedor = async (idvend, nombre, correo) => {
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post(`http://192.168.1.7:8500/api/vendedor`, {
         idvend,
         nombre,
         correo
       });
-      alert("Vendedor agregado correctamente ...")
+      console.log(response)
+      alert("Vendedor agregado correctamente ...");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
     finally {
       setLoading(false);
     }
   };
-
 
   const { control, reset, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -44,14 +97,13 @@ const Vendedor = () => {
     },
   });
   const onSubmit = data => {
-    //reset();
+    reset();
     console.log(data)
     SetVendedores([...vendedores, data]);
-    setArreglo(data);
     setPlaceholder(false);
-    saveCustumer();
-
+    saveVendedor(data.idvend, data.nombre, data.correo);
   };
+
   return (
     <View style={styles.container}>
       <View style={{ backgroundColor: '#fffafa' }}>
@@ -60,6 +112,13 @@ const Vendedor = () => {
       </View>
 
       <View>
+         {/* <TextInput style={styles.inputs}
+          placeholder="Ingrese el id del usuario"
+          //onChangetex debe ser onChangeText, pq es String
+          onChangeText={sid => setSid(sid)}
+          value={sid}
+        >
+        </TextInput>  */}
         <Text style={styles.label}>Identificacion del vendedor</Text>
         <Controller
           control={control}
@@ -77,9 +136,9 @@ const Vendedor = () => {
             <TextInput
               style={[styles.inputs, { borderColor: errors.idvend ? 'red' : 'green' }]}
               onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholder="Ingrese identificacion"
+              onChangeText={idCambio ? (sid => setSid(sid) ): onChange}
+              value={idCambio ? (`${sid}`) : value}
+             // placeholder={placeHolder ? (`${idven}`) : "Ingrese id"}
             />
           )}
           name="idvend"
@@ -106,7 +165,7 @@ const Vendedor = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder={placeHolder ? (`${prueba}`) : "Ingrese el nombre del vendedor"}
+              placeholder={placeHolder ? (`${nombre}`):"Ingrese nombre"}
             />
           )}
           name="nombre"
@@ -114,7 +173,7 @@ const Vendedor = () => {
         {errors.nombre && <Text style={{ color: 'red', fontSize: 15 }}>{errors.nombre.message}</Text>}
       </View>
       <View>
-        <Text style={styles.label}>Correo electronico</Text>
+        <Text style={styles.label}>Correo electronico </Text>
         <Controller
           control={control}
           rules={{
@@ -133,8 +192,8 @@ const Vendedor = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder="Ingrese el correo del vendedor"
-            />
+              placeholder={placeHolder ? (`${correo}`) : "Ingrese correo"}
+            ></TextInput>
           )}
           name="correo"
         />
@@ -157,17 +216,243 @@ const Vendedor = () => {
         <View style={styles.input_flex}>
           <TouchableOpacity
             style={{ backgroundColor: 'green', padding: 10, borderRadius: 10, marginTop: 80, width: 200 }}
-            onPress={() => buscar()}
+            onPress={() => check()}
           >
-            <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>Bucar vendedor</Text>
+            <Text style={{ color: 'white', textAlign: 'center', fontSize: 20 }}>Buscar vendedor</Text>
           </TouchableOpacity>
         </View>
+
+
       </View>
 
+      <View style={{}}>
+        {isLoading ? <ActivityIndicator size="large" color="green" /> : (
+          <FlatList
+            data={data}
+            keyExtractor={({ id }, index) => id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[styles.buttons, { backgroundColor: item.idvend % 2 == 0 ? 'orange' : 'gray' }]}
+                onPress={() => {
+                  //alert(item.username);
+                  if (confirm(`Esta seguro de borrar el usuario ${item.idvend}   ?`)) {
+                    alert("Borrado");
+                  }
 
+                }}
+
+              >
+                <Text style={{ color: 'white', fontWeight: 'bold' }}>{item.idvend},{item.nombre}, {item.correo}, {item.totalComision}</Text>
+              </TouchableOpacity>
+
+            )}
+          />
+        )}
+      </View>
 
     </View>
   )
+
+}
+export default Vendedor;
+    /* const [isLoading, setLoading] = useState(true);
+const [data, setData] = useState([]);
+const [sid, setSid] = useState('');
+const [idvend, setIdvend] = useState('');
+const [nombre, setNombre] = useState('');
+const [correo, setCorreo] = useState('');
+const [totalComision, setTotalComision] = useState('');
+
+console.log("corriendo aplicacion");
+
+useEffect(() => {
+//getUsers();
+}, []);
+
+const getVendedor = async () => {
+try {
+const url = `http://192.168.1.7:8500/api/vendedor`;
+const response = await axios.get(url);
+setData(response.data)
+console.log(data)
+}
+catch (error) {
+console.log(error)
+}
+finally {
+setLoading(false)
+}
+};
+
+const getVendedorById = async (id) => {
+try {
+const url = `http://192.168.1.7:8500/api/vendedor/${id}`;
+const response = await axios.get(url);
+if (response.data.idvend != null) {
+setIdvend(response.data.idvend);
+setNombre(response.data.nombre);
+setCorreo(response.data.correo);
+setTotalComision(response.data.totalComision);
+} else {
+alert("Vendedor no existe");
+setIdvend('');
+setNombre('');
+setCorreo('');
+setTotalComision('');
 }
 
-export default Vendedor;
+}
+catch (error) {
+console.log(error)
+}
+finally {
+setLoading(false)
+}
+};
+const saveVendedor = async () => {
+if (!idvend.trim() || !nombre.trim() || !correo.trim()) {
+alert("Todos los campos son obligatorios..");
+return;
+}
+setLoading(true);
+try {
+const response = await axios.post(`http://192.168.1.7:8500/api/vendedor`, {
+idvend,
+nombre,
+correo,
+totalComision
+});
+alert("Vendedor agregado correctamente ...")
+} catch (error) {
+console.log(error)
+}
+finally {
+setLoading(false);
+}
+};
+
+const updateVendedor = async (id) => {
+if (!idvend.trim() || !nombre.trim() || !correo.trim()) {
+alert("Todos los campos son obligatorios....");
+return;
+}
+setLoading(true);
+try {
+const response = await axios.put(`http://192.168.1.7:8500/api/vendedor/${id}`, {
+idvend,
+nombre,
+correo,
+totalComision
+});
+alert("Vendedor actualizado correctamente ...")
+} catch (error) {
+console.log(error)
+}
+finally {
+setLoading(false);
+}
+};
+
+const deleteVendedor = async (id) => {
+try {
+if (confirm("Esta seguro de borrar")) {
+const response = await axios.delete(`http://192.168.1.7:8500/api/vendedor/${id}`);
+alert("Vendedor Eliminado exitosamente ...")
+}
+} catch (error) {
+console.log(error)
+}
+finally {
+setLoading(false);
+}
+};
+return (
+
+<View style={{ flex: 1, padding: 24 }}>
+ 
+
+<TextInput style={styles.inputs}
+placeholder="Ingrese el id del usuario"
+//onChangetex debe ser onChangeText, pq es String
+onChangeText={sid => setSid(sid)}
+value={sid}
+
+>
+</TextInput>
+<TextInput style={styles.inputs}
+placeholder="Ingrese el idvend"
+onChangeText={idvend => setIdvend(idvend)}
+value={idvend}
+>
+</TextInput>
+<TextInput style={styles.inputs}
+placeholder="Ingrese el nombre"
+onChangeText={nombre => setNombre(nombre)}
+value={nombre}
+>
+</TextInput>
+<TextInput style={styles.inputs}
+placeholder="Ingrese correo"
+onChangeText={correo => setCorreo(correo)}
+value={correo}
+>
+</TextInput>
+<TextInput style={styles.inputs}
+placeholder="Ingrese el total comision"
+onChangeText={totalComision => setTotalComision(totalComision)}
+value={totalComision}
+>
+</TextInput>
+<TouchableOpacity style={{ backgroundColor: 'blue', marginBottom: 10 }}
+onPress={getVendedor}
+>
+<Text style={{ color: 'white' }}>Vendedores</Text>
+</TouchableOpacity>
+<TouchableOpacity style={{ backgroundColor: 'blue', marginBottom: 10 }}
+onPress={() => getVendedorById(sid)}
+>
+<Text style={{ color: 'white' }}>Buscar por id</Text>
+</TouchableOpacity>
+<TouchableOpacity style={{ backgroundColor: 'yellow', marginBottom: 10 }}
+onPress={() => saveVendedor()}
+>
+<Text style={{ color: 'black' }}>Guardar</Text>
+</TouchableOpacity>
+
+<TouchableOpacity style={{ backgroundColor: 'green', marginBottom: 10 }}
+onPress={() => updateVendedor(sid)}
+>
+<Text style={{ color: 'black' }}>Actualizar</Text>
+</TouchableOpacity>
+
+<TouchableOpacity style={{ backgroundColor: 'red', marginBottom: 10 }}
+onPress={() => deleteVendedor(sid)}
+>
+<Text style={{ color: 'black' }}>Borrar</Text>
+</TouchableOpacity>
+
+{isLoading ? <ActivityIndicator size="large" color="red" /> : (
+<FlatList
+data={data}
+keyExtractor={({ id }, index) => id}
+renderItem={({ item }) => (
+<TouchableOpacity
+style={[styles.buttons, { backgroundColor: item.id % 2 == 0 ? 'orange' : 'gray' }]}
+onPress={() => {
+  //alert(item.username);
+  if (confirm(`Esta seguro de borrar el usuario ${item.idvend}   ?`)) {
+    alert("Borrado");
+  }
+
+}}
+
+>
+<Text style={{ color: 'white', fontWeight: 'bold' }}>{item.idvend},{item.nombre}, {item.correo}, {item.totalComision}</Text>
+</TouchableOpacity>
+
+)}
+/>
+)}
+</View>
+); */
+
