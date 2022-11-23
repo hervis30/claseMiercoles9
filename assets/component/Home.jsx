@@ -4,7 +4,8 @@ import Vendedor from './Vendedor';
 import { Ionicons } from '@expo/vector-icons';
 import Venta from './Venta';
 import { AppContexProvider } from '../contex/AppContexProvider';
-import CustomTab from "../component/CustomTab";
+
+/* import CustomTab from "../component/CustomTab"; */
 
 
 const Tab = createBottomTabNavigator();
@@ -15,28 +16,34 @@ const Home = () => {
     <AppContexProvider>
       <Tab.Navigator
         initialRouteName='Vendedor'
-        screenOptions= {({ route }) => ({
+        labelStyle={{ fontSize: 18 }}
+        screenOptions={ ({}) => ({
           tabBarActiveTintColor: 'white',
-          tabBarActiveBackgroundColor: '#FF6868',
+          tabBarActiveBackgroundColor: '#7769f7',
           tabBarInactiveTintColor: 'black',
           headerShown: false
-        })
-        }
-    
-        tabBar={props => <CustomTab {...props} />}
-      >
-        <Tab.Screen name='Vendedor' component={Vendedor} options={{
+        })}
 
-          title: 'Vendedor', tabBarIcon: ({ color, size }) => (
-            <Ionicons name='people' color={color} size={30} />
-          )
+        /* tabBar={props => <CustomTab {...props} />} */
+      >
+        <Tab.Screen
+          name='Vendedor'
+          component={Vendedor}
+          options={{
+            title: 'Vendedor',
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name='people' color={color} size={30} />
+            )
         }}
         />
 
-        <Tab.Screen name='Venta' component={Venta} options={{
-          title: 'Ventas', tabBarIcon: ({ color, size }) => (
-            <Ionicons name='trending-up' color={color} size={30} />
-          )
+        <Tab.Screen
+          name='Venta'
+          component={Venta}
+          options={{
+            title: 'Ventas', tabBarIcon: ({ color, size }) => (
+              <Ionicons name='trending-up' color={color} size={30} />
+            )
         }}
         />
 

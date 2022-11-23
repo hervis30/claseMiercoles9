@@ -3,7 +3,7 @@ import { styles } from '../Styles/Style';
 import { useForm, Controller } from "react-hook-form";
 import useVentas from '../hooks/useVentas';
 
-const Vendedor = () => {
+const Vendedor = props => {
   const { vendedores, SetVendedores,
     totalComision, setTotalComision } = useVentas();
 

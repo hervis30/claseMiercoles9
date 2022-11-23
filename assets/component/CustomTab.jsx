@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 
 export default props => {
@@ -79,4 +79,4 @@ export default props => {
       </View>
     </SafeAreaView>
   );
-};
+}; */
