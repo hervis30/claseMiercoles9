@@ -11,7 +11,7 @@ export default function App() {
         <stack.Screen
           name="home"
           component={Home}
-          options={{ title: "Vendedor y ventas" }}
+          options={{ title: "" }}
         />
       </stack.Navigator>
     </NavigationContainer>

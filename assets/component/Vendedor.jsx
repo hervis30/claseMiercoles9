@@ -175,6 +175,7 @@ const Vendedor = () => {
           placeholder={totalComision}
         ></TextInput>
       </View>
+
       <View style={{ flex: 1, flexDirection: "row" }}>
         <View style={styles.input_flex}>
           <TouchableOpacity
@@ -182,7 +183,7 @@ const Vendedor = () => {
               backgroundColor: "#eeeeee",
               padding: 10,
               borderRadius: 20,
-              marginTop: 80,
+              marginTop: 15,
               width: 150,
             }}
             onPress={handleSubmit(onSubmit)}
@@ -204,13 +205,13 @@ const Vendedor = () => {
               backgroundColor: "#eeeeee",
               padding: 10,
               borderRadius: 20,
-              marginTop: 80,
+              marginTop: 15,
               width: 150,
             }}
             onPress={() => buscar()}
           >
             <Text style={{ color: "black", textAlign: "center", fontSize: 23 }}>
-              Bucar
+              Buscar
             </Text>
           </TouchableOpacity>
         </View>

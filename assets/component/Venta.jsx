@@ -150,13 +150,13 @@ const Venta = () => {
           style={{
             backgroundColor: "#eeeeee",
             padding: 10,
-            borderRadius: 10,
-            marginTop: 80,
-            width: 200,
+            borderRadius: 20,
+            marginTop: 15,
+            width: 150,
           }}
           onPress={handleSubmit(onSubmit)}
         >
-          <Text style={{ color: "black", textAlign: "center", fontSize: 20 }}>
+          <Text style={{ color: "black", textAlign: "center", fontSize: 23 }}>
             Agregar
           </Text>
         </TouchableOpacity>
